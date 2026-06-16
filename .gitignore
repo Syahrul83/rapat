@@ -45,13 +45,16 @@ Thumbs.db
 desktop.ini
 ehthumbs.db
 
+# Temp
+/UserssyahrAppDataLocalTempopencodelivewire-tmp
+
 # Database (keep structure, not data)
 database/database.sqlite
 
 # Blueprints (internal documentation)
 /blueprints/
 
-# Playwright test artifacts
-*.txt
-*.png
+# Playwright test artifacts (root level only)
+/rapat-*.txt
+/rapat-*.png
 cookies.txt
