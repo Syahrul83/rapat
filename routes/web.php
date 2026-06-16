@@ -28,11 +28,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // PDF route
     Route::get('/meetings/{meeting}/pdf', [PdfController::class, 'participantList'])
-        ->name('meetings.pdf')
-        ->middleware('signed');
+        ->name('meetings.pdf');
 
     // Report routes
     Route::livewire('/reports', '⚡admin.⚡report-page')->name('reports');
+    Route::get('/reports/pdf', [PdfController::class, 'reportPdf'])->name('reports.pdf');
 
     // User routes (Super Admin only)
     Route::livewire('/users', '⚡admin.⚡user-table')

@@ -37,94 +37,80 @@ new class extends Component {
 ?>
 
 <div>
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold">Jadwal Rapat</a>
-                    <a href="{{ route('admin.meetings') }}" class="text-sm text-gray-600 hover:text-gray-900">Rapat</a>
-                    <a href="{{ route('admin.reports') }}" class="text-sm text-gray-600 hover:text-gray-900">Laporan</a>
-                    <a href="{{ route('admin.users') }}" class="text-sm text-blue-600 font-semibold">Users</a>
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="text-sm text-gray-600">{{ auth()->user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="text-sm text-red-600 hover:text-red-800">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @if(session('success'))
+        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg text-body-sm">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-body-sm">{{ session('error') }}</div>
+    @endif
 
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        @if(session('success'))
-            <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">{{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">{{ session('error') }}</div>
-        @endif
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-headline-md text-primary">Manajemen User</h1>
+        <a href="{{ route('admin.users.create') }}" class="bg-primary text-on-primary px-4 py-2 rounded-lg text-label-md font-bold hover:brightness-95 transition-all">+ Tambah User</a>
+    </div>
 
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">Manajemen User</h1>
-            <a href="{{ route('admin.users.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">+ Tambah User</a>
-        </div>
+    <div class="flex items-center gap-3 mb-4">
+        <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari user..."
+            class="flex-1 md:w-96 px-4 py-2 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-body-md">
+        <button class="px-4 py-2 border border-outline-variant rounded-lg text-label-md font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-1">
+            <span class="material-symbols-outlined text-[18px]">filter_alt</span> Filter
+        </button>
+        <button class="px-4 py-2 border border-outline-variant rounded-lg text-label-md font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-1">
+            <span class="material-symbols-outlined text-[18px]">download</span> Export
+        </button>
+    </div>
 
-        <div class="mb-4">
-            <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari user..."
-                class="w-full md:w-96 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-surface-container-low text-primary text-label-md border-b border-outline-variant">
+                <tr>
+                    <th class="px-4 py-4">NO</th>
+                    <th class="px-4 py-4">NAMA</th>
+                    <th class="px-4 py-4">EMAIL</th>
+                    <th class="px-4 py-4">ROLE</th>
+                    <th class="px-4 py-4 text-right">AKSI</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant">
+                @php $no = 1; @endphp
+                @forelse($this->users() as $user)
+                    <tr class="hover:bg-surface-container-low transition-colors group">
+                        <td class="px-4 py-4 text-body-md text-on-surface-variant">{{ $no++ }}</td>
+                        <td class="px-4 py-4 text-body-md text-primary font-semibold">{{ $user->name }}</td>
+                        <td class="px-4 py-4 text-body-md text-secondary">{{ $user->email }}</td>
+                        <td class="px-4 py-4">
+                            <span class="px-2 py-1 rounded-full text-label-sm font-bold {{ $user->role->value === 'super_admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700' }}">
+                                {{ $user->role->label() }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="text-label-sm text-secondary hover:underline">Edit</a>
+                                <button wire:click="confirmDelete({{ $user->id }})" class="text-label-sm text-error hover:underline">Hapus</button>
+                            </div>
+                        </td>
                     </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @php $no = 1; @endphp
-                    @forelse($this->users() as $user)
-                        <tr>
-                            <td class="px-6 py-4 text-sm text-gray-500">{{ $no++ }}</td>
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $user->name }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-500">{{ $user->email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $user->role->value === 'super_admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
-                                    {{ $user->role->label() }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
-                                <a href="{{ route('admin.users.edit', $user) }}" class="text-yellow-600 hover:text-yellow-800">Edit</a>
-                                <button wire:click="confirmDelete({{ $user->id }})" class="text-red-600 hover:text-red-800">Hapus</button>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada user</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-4 py-8 text-center text-secondary text-body-md">Tidak ada user</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-        <div class="mt-4">{{ $this->users()->links() }}</div>
+    <div class="mt-4">{{ $this->users()->links() }}</div>
 
-        @if($confirmDelete)
-            <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-                <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                    <h3 class="text-lg font-bold mb-4">Konfirmasi Hapus</h3>
-                    <p class="mb-4">Apakah Anda yakin ingin menghapus user ini?</p>
-                    <div class="flex justify-end space-x-2">
-                        <button wire:click="$set('confirmDelete', null)" class="px-4 py-2 border rounded-md">Batal</button>
-                        <button wire:click="delete" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Hapus</button>
-                    </div>
+    @if($confirmDelete)
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-navy/40 backdrop-blur-sm" wire:click="$set('confirmDelete', null)">
+            <div class="bg-surface-container-lowest rounded-xl shadow-lg max-w-md w-full mx-4 p-6" onclick="event.stopPropagation()">
+                <h3 class="text-headline-md text-primary mb-2">Konfirmasi Hapus</h3>
+                <p class="text-body-md text-secondary mb-6">Apakah Anda yakin ingin menghapus user ini?</p>
+                <div class="flex justify-end gap-3">
+                    <button wire:click="$set('confirmDelete', null)" class="px-6 py-2 border border-outline-variant rounded-lg text-label-md font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors">Batal</button>
+                    <button wire:click="delete" class="px-6 py-2 bg-error text-on-error rounded-lg text-label-md font-bold hover:brightness-95 transition-all">Hapus</button>
                 </div>
             </div>
-        @endif
-    </main>
+        </div>
+    @endif
 </div>

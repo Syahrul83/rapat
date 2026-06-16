@@ -66,139 +66,128 @@ new class extends Component {
 ?>
 
 <div>
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold">Jadwal Rapat</a>
-                    <a href="{{ route('admin.meetings') }}" class="text-sm text-gray-600 hover:text-gray-900">Rapat</a>
-                    <a href="{{ route('admin.reports') }}" class="text-sm text-blue-600 font-semibold">Laporan</a>
-                    @if(auth()->user()->isSuperAdmin())
-                        <a href="{{ route('admin.users') }}" class="text-sm text-gray-600 hover:text-gray-900">Users</a>
-                    @endif
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="text-sm text-gray-600">{{ auth()->user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="text-sm text-red-600 hover:text-red-800">Logout</button>
-                    </form>
-                </div>
-            </div>
+    <div class="flex justify-between items-start mb-6">
+        <div>
+            <h1 class="text-headline-md text-primary mb-1">Laporan Rekapitulasi</h1>
+            <p class="text-body-md text-secondary">Pantau statistik rapat dan peserta secara berkala.</p>
         </div>
-    </nav>
+        <a href="{{ route('admin.reports.pdf', [
+            'type' => $this->filter_type,
+            'year' => $this->filter_year,
+            'month' => $this->filter_month,
+            'meeting' => $this->filter_meeting,
+        ]) }}" target="_blank" class="px-4 py-2 bg-error text-on-error rounded-lg text-label-md font-bold hover:brightness-95 transition-all flex items-center gap-1">
+            <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span> Cetak PDF
+        </a>
+    </div>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 class="text-2xl font-bold mb-6">Laporan Rekapitulasi</h1>
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 mb-6">
+        <div class="flex flex-wrap gap-4 items-end">
+            <div>
+                <label class="block text-label-sm text-on-surface mb-1">Tipe Laporan</label>
+                <select wire:model.live="filter_type" class="px-3 py-2 bg-surface-bright border border-outline-variant rounded-lg text-body-md focus:ring-2 focus:ring-primary outline-none">
+                    <option value="kegiatan">Per Kegiatan</option>
+                    <option value="bulanan">Per Bulan</option>
+                    <option value="tahunan">Per Tahun</option>
+                </select>
+            </div>
 
-        <div class="bg-white rounded-lg shadow p-6 mb-6">
-            <div class="flex flex-wrap gap-4 items-end">
+            @if($filter_type !== 'kegiatan')
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipe Laporan</label>
-                    <select wire:model.live="filter_type" class="px-3 py-2 border border-gray-300 rounded-md text-sm">
-                        <option value="kegiatan">Per Kegiatan</option>
-                        <option value="bulanan">Per Bulan</option>
-                        <option value="tahunan">Per Tahun</option>
+                    <label class="block text-label-sm text-on-surface mb-1">Tahun</label>
+                    <select wire:model.live="filter_year" class="px-3 py-2 bg-surface-bright border border-outline-variant rounded-lg text-body-md focus:ring-2 focus:ring-primary outline-none">
+                        @foreach($this->getYears() as $year)
+                            <option value="{{ $year }}">{{ $year }}</option>
+                        @endforeach
                     </select>
                 </div>
+            @endif
 
-                @if($filter_type !== 'kegiatan')
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tahun</label>
-                        <select wire:model.live="filter_year" class="px-3 py-2 border border-gray-300 rounded-md text-sm">
-                            @foreach($this->getYears() as $year)
-                                <option value="{{ $year }}">{{ $year }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                @endif
+            @if($filter_type === 'bulanan')
+                <div>
+                    <label class="block text-label-sm text-on-surface mb-1">Bulan</label>
+                    <select wire:model.live="filter_month" class="px-3 py-2 bg-surface-bright border border-outline-variant rounded-lg text-body-md focus:ring-2 focus:ring-primary outline-none">
+                        <option value="">Semua Bulan</option>
+                        @foreach($this->getMonths() as $num => $name)
+                            <option value="{{ $num }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
 
-                @if($filter_type === 'bulanan')
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
-                        <select wire:model.live="filter_month" class="px-3 py-2 border border-gray-300 rounded-md text-sm">
-                            <option value="">Semua Bulan</option>
-                            @foreach($this->getMonths() as $num => $name)
-                                <option value="{{ $num }}">{{ $name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                @endif
-
-                @if($filter_type === 'kegiatan')
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Rapat</label>
-                        <select wire:model.live="filter_meeting" class="px-3 py-2 border border-gray-300 rounded-md text-sm">
-                            <option value="">Semua Rapat</option>
-                            @foreach($this->getMeetings() as $meeting)
-                                <option value="{{ $meeting->id }}">{{ $meeting->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                @endif
-            </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow overflow-hidden">
             @if($filter_type === 'kegiatan')
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kegiatan</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Lokasi</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Total</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Narasumber</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Peserta</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse($this->report() as $index => $row)
-                            <tr>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $index + 1 }}</td>
-                                <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $row['title'] }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $row['dates'] }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $row['location'] }}</td>
-                                <td class="px-6 py-4 text-sm text-center font-semibold text-blue-600">{{ $row['total_participants'] }}</td>
-                                <td class="px-6 py-4 text-sm text-center text-green-600">{{ $row['narasumber_count'] }}</td>
-                                <td class="px-6 py-4 text-sm text-center text-orange-600">{{ $row['peserta_count'] }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="px-6 py-4 text-center text-gray-500">Tidak ada data</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            @else
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $filter_type === 'bulanan' ? 'Bulan' : 'Tahun' }}</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Jumlah Rapat</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Jumlah Peserta</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse($this->report() as $index => $row)
-                            <tr>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $index + 1 }}</td>
-                                <td class="px-6 py-4 text-sm font-medium text-gray-900">
-                                    {{ $filter_type === 'bulanan' ? ($row['nama_bulan'] ?? '') . ' ' . $filter_year : $row['tahun'] ?? $filter_year }}
-                                </td>
-                                <td class="px-6 py-4 text-sm text-center font-semibold text-blue-600">{{ $row['jumlah_rapat'] }}</td>
-                                <td class="px-6 py-4 text-sm text-center font-semibold text-green-600">{{ $row['jumlah_peserta'] }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="px-6 py-4 text-center text-gray-500">Tidak ada data</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                <div>
+                    <label class="block text-label-sm text-on-surface mb-1">Rapat</label>
+                    <select wire:model.live="filter_meeting" class="px-3 py-2 bg-surface-bright border border-outline-variant rounded-lg text-body-md focus:ring-2 focus:ring-primary outline-none">
+                        <option value="">Semua Rapat</option>
+                        @foreach($this->getMeetings() as $meeting)
+                            <option value="{{ $meeting->id }}">{{ $meeting->title }}</option>
+                        @endforeach
+                    </select>
+                </div>
             @endif
         </div>
-    </main>
+    </div>
+
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+        @if($filter_type === 'kegiatan')
+            <table class="w-full text-left">
+                <thead class="bg-surface-container-low text-primary text-label-md border-b border-outline-variant">
+                    <tr>
+                        <th class="px-4 py-4">No</th>
+                        <th class="px-4 py-4">Kegiatan</th>
+                        <th class="px-4 py-4">Tanggal</th>
+                        <th class="px-4 py-4">Lokasi</th>
+                        <th class="px-4 py-4 text-center">Total</th>
+                        <th class="px-4 py-4 text-center">Narasumber</th>
+                        <th class="px-4 py-4 text-center">Peserta</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant">
+                    @forelse($this->report() as $index => $row)
+                        <tr class="hover:bg-surface-container-low transition-colors">
+                            <td class="px-4 py-4 text-body-md text-on-surface-variant">{{ $index + 1 }}</td>
+                            <td class="px-4 py-4 text-body-md text-primary font-semibold">{{ $row['title'] }}</td>
+                            <td class="px-4 py-4 text-body-md text-secondary">{{ $row['dates'] }}</td>
+                            <td class="px-4 py-4 text-body-md text-secondary">{{ $row['location'] }}</td>
+                            <td class="px-4 py-4 text-body-md text-center font-bold text-primary">{{ $row['total_participants'] }}</td>
+                            <td class="px-4 py-4 text-body-md text-center text-green-600">{{ $row['narasumber_count'] }}</td>
+                            <td class="px-4 py-4 text-body-md text-center text-secondary">{{ $row['peserta_count'] }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-4 py-8 text-center text-secondary text-body-md">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        @else
+            <table class="w-full text-left">
+                <thead class="bg-surface-container-low text-primary text-label-md border-b border-outline-variant">
+                    <tr>
+                        <th class="px-4 py-4">No</th>
+                        <th class="px-4 py-4">{{ $filter_type === 'bulanan' ? 'Bulan' : 'Tahun' }}</th>
+                        <th class="px-4 py-4 text-center">Jumlah Rapat</th>
+                        <th class="px-4 py-4 text-center">Jumlah Peserta</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant">
+                    @forelse($this->report() as $index => $row)
+                        <tr class="hover:bg-surface-container-low transition-colors">
+                            <td class="px-4 py-4 text-body-md text-on-surface-variant">{{ $index + 1 }}</td>
+                            <td class="px-4 py-4 text-body-md text-primary font-semibold">
+                                {{ $filter_type === 'bulanan' ? ($row['nama_bulan'] ?? '') . ' ' . $filter_year : $row['tahun'] ?? $filter_year }}
+                            </td>
+                            <td class="px-4 py-4 text-body-md text-center font-bold text-primary">{{ $row['jumlah_rapat'] }}</td>
+                            <td class="px-4 py-4 text-body-md text-center font-bold text-green-600">{{ $row['jumlah_peserta'] }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-4 py-8 text-center text-secondary text-body-md">Tidak ada data</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        @endif
+    </div>
 </div>

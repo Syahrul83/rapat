@@ -70,86 +70,74 @@ new class extends Component {
 ?>
 
 <div>
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold">Jadwal Rapat</a>
-                    <a href="{{ route('admin.meetings') }}" class="text-sm text-blue-600 font-semibold">Rapat</a>
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="text-sm text-gray-600">{{ auth()->user()->name }}</span>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <div class="max-w-3xl">
+        <a href="{{ route('admin.meetings') }}" class="text-label-md text-primary hover:underline mb-4 inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span> Kembali
+        </a>
+        <h1 class="text-headline-md text-primary mb-6">Tambah Jadwal Rapat</h1>
 
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 class="text-2xl font-bold mb-6">Tambah Jadwal Rapat</h1>
-
-        <div class="bg-white rounded-lg shadow p-6">
-            <form wire:submit="save">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kegiatan Rapat *</label>
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6">
+            <form wire:submit="save" class="space-y-5">
+                <div>
+                    <label class="block text-label-md text-on-surface mb-1">Nama Kegiatan Rapat *</label>
                     <input wire:model.live="title" type="text"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        class="w-full px-4 py-2 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-body-md">
+                    @error('title') <span class="text-error text-label-sm">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
+                <div>
+                    <label class="block text-label-md text-on-surface mb-1">Keterangan</label>
                     <textarea wire:model.live="description" rows="3"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        class="w-full px-4 py-2 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-body-md"></textarea>
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Lokasi *</label>
+                <div>
+                    <label class="block text-label-md text-on-surface mb-1">Lokasi *</label>
                     <input wire:model.live="location" type="text"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    @error('location') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        class="w-full px-4 py-2 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-body-md">
+                    @error('location') <span class="text-error text-label-sm">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Jam Mulai *</label>
+                        <label class="block text-label-md text-on-surface mb-1">Jam Mulai *</label>
                         <input wire:model.live="start_time" type="time"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        @error('start_time') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            class="w-full px-4 py-2 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-body-md">
+                        @error('start_time') <span class="text-error text-label-sm">{{ $message }}</span> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Jam Selesai *</label>
+                        <label class="block text-label-md text-on-surface mb-1">Jam Selesai *</label>
                         <input wire:model.live="end_time" type="time"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        @error('end_time') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            class="w-full px-4 py-2 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-body-md">
+                        @error('end_time') <span class="text-error text-label-sm">{{ $message }}</span> @enderror
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Hari/Tanggal *</label>
+                <div>
+                    <label class="block text-label-md text-on-surface mb-1">Hari/Tanggal *</label>
                     <div class="flex gap-2 mb-2">
                         <input wire:model.live="newDate" type="date"
-                            class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <button type="button" wire:click="addDate"
-                            class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">Tambah</button>
+                            class="flex-1 px-4 py-2 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-body-md">
+                        <button type="button" wire:click="addDate" class="px-4 py-2 bg-surface-container-high text-on-surface rounded-lg hover:bg-surface-container-highest transition-colors text-label-md">Tambah</button>
                     </div>
-                    @error('newDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    @error('dates') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    @error('newDate') <span class="text-error text-label-sm">{{ $message }}</span> @enderror
+                    @error('dates') <span class="text-error text-label-sm">{{ $message }}</span> @enderror
 
                     <div class="flex flex-wrap gap-2 mt-2">
                         @foreach($dates as $index => $date)
-                            <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full bg-primary-container text-on-primary-container text-label-sm">
                                 {{ \Carbon\Carbon::parse($date)->format('d M Y') }}
-                                <button type="button" wire:click="removeDate({{ $index }})" class="ml-2 text-blue-600 hover:text-blue-800">&times;</button>
+                                <button type="button" wire:click="removeDate({{ $index }})" class="ml-2 hover:text-on-primary-container/70">&times;</button>
                             </span>
                         @endforeach
                     </div>
                 </div>
 
-                <div class="flex justify-end space-x-2 mt-6">
-                    <a href="{{ route('admin.meetings') }}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Batal</a>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Simpan</button>
+                <div class="flex justify-end gap-3 pt-2">
+                    <a href="{{ route('admin.meetings') }}" class="px-6 py-2 border border-outline-variant rounded-lg text-label-md font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors">Batal</a>
+                    <button type="submit" class="px-6 py-2 bg-primary text-on-primary rounded-lg text-label-md font-bold hover:brightness-95 transition-all">Simpan</button>
                 </div>
             </form>
         </div>
-    </main>
+    </div>
 </div>
