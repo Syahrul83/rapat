@@ -53,9 +53,9 @@ new class extends Component {
         <div class="w-full max-w-[440px]">
             <div class="bg-surface-container-lowest rounded-lg border border-outline-variant/50 shadow-lg p-6 md:p-8" style="opacity: 1; transform: translateY(0px); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);">
                 <div class="flex flex-col items-center mb-8 text-center">
-                    <div class="w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-on-primary-container text-[32px]" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
-                    </div>
+                <div class="w-12 h-12 flex items-center justify-center mb-4">
+    <img src="{{ asset('image/lambang.png') }}" alt="Lambang" style="width:100px;height:100px;">
+</div>
                     <h2 class="text-headline-lg font-headline-lg text-on-surface">Masuk ke Panel</h2>
                     <p class="text-on-surface-variant text-body-sm mt-1">Silakan gunakan kredensial resmi instansi Anda.</p>
                 </div>
