@@ -13,6 +13,7 @@ Route::post('/logout', function () {
     auth()->logout();
     session()->invalidate();
     session()->regenerateToken();
+
     return redirect()->route('login');
 })->name('logout');
 
@@ -33,6 +34,22 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Report routes
     Route::livewire('/reports', '⚡admin.⚡report-page')->name('reports');
     Route::get('/reports/pdf', [PdfController::class, 'reportPdf'])->name('reports.pdf');
+
+    // Notulen routes
+    Route::livewire('/notulens', '⚡admin.⚡notulen-table')->name('notulens');
+    Route::livewire('/notulens/create', '⚡admin.⚡create-notulen')->name('notulens.create');
+    Route::livewire('/notulens/{id}/edit', '⚡admin.⚡edit-notulen')->name('notulens.edit');
+
+    // Kepala routes
+    Route::livewire('/kepalas', '⚡admin.⚡kepala-table')->name('kepalas');
+    Route::livewire('/kepalas/create', '⚡admin.⚡create-kepala')->name('kepalas.create');
+    Route::livewire('/kepalas/{id}/edit', '⚡admin.⚡edit-kepala')->name('kepalas.edit');
+
+    // Notulensi routes
+    Route::livewire('/notulensis', '⚡admin.⚡notulensi-table')->name('notulensis');
+    Route::livewire('/notulensis/create', '⚡admin.⚡create-notulensi')->name('notulensis.create');
+    Route::livewire('/notulensis/{id}/edit', '⚡admin.⚡edit-notulensi')->name('notulensis.edit');
+    Route::get('/notulensis/{notulensi}/pdf', [PdfController::class, 'notulensiPdf'])->name('notulensis.pdf');
 
     // User routes (Super Admin only)
     Route::livewire('/users', '⚡admin.⚡user-table')

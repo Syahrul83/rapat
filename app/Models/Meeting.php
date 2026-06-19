@@ -48,6 +48,7 @@ class Meeting extends Model
     public function isActive(): bool
     {
         $lastDay = $this->meetingDays()->orderByDesc('date')->first();
+
         return $lastDay && $lastDay->date >= now()->subDay()->toDateString();
     }
 
@@ -57,7 +58,8 @@ class Meeting extends Model
         if (! $firstDay) {
             return '';
         }
-        return $firstDay->date->format('Y-m-d') . ' ' . $this->start_time;
+
+        return $firstDay->date->format('Y-m-d').' '.$this->start_time;
     }
 
     public function getEndDateFormattedAttribute(): string
@@ -66,6 +68,7 @@ class Meeting extends Model
         if (! $lastDay) {
             return '';
         }
-        return $lastDay->date->format('Y-m-d') . ' ' . $this->end_time;
+
+        return $lastDay->date->format('Y-m-d').' '.$this->end_time;
     }
 }

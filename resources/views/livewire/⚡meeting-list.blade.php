@@ -149,7 +149,7 @@ new class extends Component {
 
     <header class="bg-white border-b border-gray-100 py-4 px-6 md:px-12 flex justify-between items-center">
         <div class="flex items-center space-x-2">
-            <h1 class="text-2xl font-bold text-brand-navy">PANRB Digital Services</h1>
+            <h1 class="text-2xl font-bold text-brand-navy">Meeting Digital Service</h1>
         </div>
         <nav>
             <a href="{{ route('login') }}" class="bg-brand-navy text-white px-5 py-2 rounded-md flex items-center text-sm font-medium hover:bg-slate-800 transition-colors">
@@ -264,10 +264,10 @@ new class extends Component {
     <footer class="bg-white border-t border-gray-200 py-6 px-6 md:px-12 mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm">
             <div class="mb-4 md:mb-0">
-                <h5 class="font-bold text-brand-navy">PANRB DIGITAL SERVICES</h5>
+                <h5 class="font-bold text-brand-navy">MEETING DIGITAL SERVICE</h5>
             </div>
             <div class="text-brand-text-muted mb-4 md:mb-0 text-center">
-                &copy; {{ date('Y') }} PANRB Digital Services. Seluruh Hak Cipta Dilindungi.
+                &copy; {{ date('Y') }} Meeting Digital Service. Seluruh Hak Cipta Dilindungi.
             </div>
             <div class="flex space-x-6">
                 <a class="text-brand-text-muted hover:text-brand-blue-dark" href="#">Kebijakan Privasi</a>

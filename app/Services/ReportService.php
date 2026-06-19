@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Meeting;
-use App\Models\Participant;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ReportService
@@ -14,8 +14,8 @@ class ReportService
             ->where('status', 'published')
             ->withCount([
                 'participants as total_participants',
-                'participants as narasumber_count' => fn($q) => $q->where('tipe_peserta', 'narasumber'),
-                'participants as peserta_count' => fn($q) => $q->where('tipe_peserta', 'peserta'),
+                'participants as narasumber_count' => fn ($q) => $q->where('tipe_peserta', 'narasumber'),
+                'participants as peserta_count' => fn ($q) => $q->where('tipe_peserta', 'peserta'),
             ])
             ->with('meetingDays');
 
@@ -23,10 +23,10 @@ class ReportService
             $query->where('id', $meetingId);
         }
 
-        return $query->orderByDesc('created_at')->get()->map(fn($m) => [
+        return $query->orderByDesc('created_at')->get()->map(fn ($m) => [
             'id' => $m->id,
             'title' => $m->title,
-            'dates' => $m->meetingDays->pluck('date')->map(fn($d) => $d->format('d M Y'))->implode(', '),
+            'dates' => $m->meetingDays->pluck('date')->map(fn ($d) => $d->format('d M Y'))->implode(', '),
             'location' => $m->location,
             'total_participants' => $m->total_participants,
             'narasumber_count' => $m->narasumber_count,
@@ -58,9 +58,9 @@ class ReportService
             ->groupBy(DB::raw("{$monthExpr}"))
             ->orderBy('bulan')
             ->get()
-            ->map(fn($row) => [
+            ->map(fn ($row) => [
                 'bulan' => (int) $row->bulan,
-                'nama_bulan' => \Carbon\Carbon::createFromDate($year, $row->bulan, 1)->translatedFormat('F'),
+                'nama_bulan' => Carbon::createFromDate($year, $row->bulan, 1)->translatedFormat('F'),
                 'jumlah_rapat' => $row->jumlah_rapat,
                 'jumlah_peserta' => $row->jumlah_peserta,
             ])

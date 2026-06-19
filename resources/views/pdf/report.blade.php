@@ -18,7 +18,7 @@
 <body>
     <div class="header">
         <h2>LAPORAN REKAPITULASI</h2>
-        <p>PANRB Digital Services</p>
+        <p>Meeting Digital Service</p>
     </div>
 
     <div class="filter-info">

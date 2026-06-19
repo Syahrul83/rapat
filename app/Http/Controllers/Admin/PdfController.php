@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Meeting;
+use App\Models\Notulensi;
 use App\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -46,6 +47,16 @@ class PdfController extends Controller
         $pdf = Pdf::loadView('pdf.report', compact('report', 'filterType', 'filterYear', 'filterMonth', 'filterMeeting'))
             ->setPaper('a4', 'landscape');
 
-        return $pdf->download("laporan-rekapitulasi.pdf");
+        return $pdf->download('laporan-rekapitulasi.pdf');
+    }
+
+    public function notulensiPdf(Notulensi $notulensi)
+    {
+        $notulensi->load(['meeting', 'notulen', 'kepala', 'photos']);
+
+        $pdf = Pdf::loadView('pdf.notulensi', compact('notulensi'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream("notulensi-{$notulensi->meeting->title}.pdf");
     }
 }

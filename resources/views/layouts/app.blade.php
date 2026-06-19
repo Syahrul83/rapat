@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', config('app.name', 'Jadwal Rapat')) - PANRB Digital Services</title>
+    <title>@yield('title', config('app.name', 'Jadwal Rapat')) - Meeting Digital Service</title>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -15,7 +15,7 @@
                 <header class="w-full top-0 sticky z-50 bg-surface border-b border-outline-variant">
                     <div class="flex justify-between items-center h-16 px-6 max-w-[1440px] mx-auto">
                         <div class="flex items-center gap-4">
-                            <span class="text-headline-md font-bold text-primary">PANRB Digital Services</span>
+                            <span class="text-headline-md font-bold text-primary">Meeting Digital Service</span>
                         </div>
                         <div class="flex items-center gap-4">
                             <button class="p-2 hover:bg-surface-container-low rounded-full transition-colors relative">
@@ -47,6 +47,27 @@
                             <span class="material-symbols-outlined">analytics</span>
                             <span class="text-label-md">Laporan</span>
                         </a>
+                        <div x-data="{ open: {{ request()->routeIs('admin.notulens*') || request()->routeIs('admin.kepalas*') || request()->routeIs('admin.notulensis*') ? 'true' : 'false' }} }">
+                            <button @click="open = !open" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all w-full text-left {{ request()->routeIs('admin.notulens*') || request()->routeIs('admin.kepalas*') || request()->routeIs('admin.notulensis*') ? 'text-primary border-b-2 border-primary font-bold bg-surface-container-low' : 'text-on-surface-variant hover:bg-surface-container-low' }}">
+                                <span class="material-symbols-outlined">note</span>
+                                <span class="text-label-md flex-1">Notulensi</span>
+                                <span class="material-symbols-outlined transition-transform" :class="open ? 'rotate-180' : ''">expand_more</span>
+                            </button>
+                            <div x-show="open" x-transition class="ml-4 mt-1 flex flex-col gap-1">
+                                <a href="{{ route('admin.notulens') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-all {{ request()->routeIs('admin.notulens*') ? 'text-primary bg-surface-container-low font-bold' : 'text-on-surface-variant hover:bg-surface-container-low' }}">
+                                    <span class="material-symbols-outlined text-label-md">person</span>
+                                    <span class="text-label-sm">Notulen</span>
+                                </a>
+                                <a href="{{ route('admin.kepalas') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-all {{ request()->routeIs('admin.kepalas*') ? 'text-primary bg-surface-container-low font-bold' : 'text-on-surface-variant hover:bg-surface-container-low' }}">
+                                    <span class="material-symbols-outlined text-label-md">admin_panel_settings</span>
+                                    <span class="text-label-sm">Kepala</span>
+                                </a>
+                                <a href="{{ route('admin.notulensis') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-all {{ request()->routeIs('admin.notulensis*') ? 'text-primary bg-surface-container-low font-bold' : 'text-on-surface-variant hover:bg-surface-container-low' }}">
+                                    <span class="material-symbols-outlined text-label-md">description</span>
+                                    <span class="text-label-sm">Notulensi</span>
+                                </a>
+                            </div>
+                        </div>
                         @if(auth()->user()?->role === \App\Enums\UserRole::SuperAdmin)
                             <a href="{{ route('admin.users') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all {{ request()->routeIs('admin.users*') ? 'text-primary border-b-2 border-primary font-bold bg-surface-container-low' : 'text-on-surface-variant hover:bg-surface-container-low' }}">
                                 <span class="material-symbols-outlined">group</span>
