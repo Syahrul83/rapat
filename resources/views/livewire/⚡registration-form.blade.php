@@ -133,7 +133,7 @@ new class extends Component {
                             <div class="flex gap-4">
                                 <label class="flex items-center">
                                     <input type="radio" wire:model.live="jenis_peserta" value="pegawai_dinas" class="mr-2">
-                                    <span class="text-sm">Pegawai Dinas</span>
+                                    <span class="text-sm">ASN</span>
                                 </label>
                                 <label class="flex items-center">
                                     <input type="radio" wire:model.live="jenis_peserta" value="eksternal" class="mr-2">

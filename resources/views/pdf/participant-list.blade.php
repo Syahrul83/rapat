@@ -72,7 +72,7 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $participant->name }}</td>
-                    <td>{{ $participant->jenis_peserta === 'pegawai_dinas' ? 'Pegawai' : 'Eksternal' }}</td>
+                    <td>{{ $participant->jenis_peserta === 'pegawai_dinas' ? 'ASN' : 'Eksternal' }}</td>
                     <td>{{ ucfirst($participant->tipe_peserta) }}</td>
                     <td>{{ $participant->nip ?? $participant->nik }}</td>
                     <td>{{ $participant->registered_at ? $participant->registered_at->format('d/m/Y') : '-' }}</td>

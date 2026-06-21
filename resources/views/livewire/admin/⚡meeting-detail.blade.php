@@ -130,7 +130,7 @@ new class extends Component {
                     <tr class="hover:bg-surface-container-low transition-colors">
                         <td class="px-4 py-4 text-body-md text-on-surface-variant">{{ $index + 1 }}</td>
                         <td class="px-4 py-4 text-body-md text-primary font-semibold">{{ $participant->name }}</td>
-                        <td class="px-4 py-4 text-body-md text-secondary">{{ $participant->jenis_peserta === 'pegawai_dinas' ? 'Pegawai Dinas' : 'Eksternal' }}</td>
+                        <td class="px-4 py-4 text-body-md text-secondary">{{ $participant->jenis_peserta === 'pegawai_dinas' ? 'ASN' : 'Eksternal' }}</td>
                         <td class="px-4 py-4 text-body-md text-secondary">{{ ucfirst($participant->tipe_peserta) }}</td>
                         <td class="px-4 py-4 text-body-md text-secondary">{{ $participant->nip ?? $participant->nik }}</td>
                         <td class="px-4 py-4 text-body-md text-secondary">{{ $participant->registered_at ? $participant->registered_at->format('d M Y H:i') : '-' }}</td>

@@ -125,8 +125,8 @@ new class extends Component {
             'name' => $this->name,
             'jenis_peserta' => $this->jenis_peserta,
             'tipe_peserta' => $this->tipe_peserta,
-            'nip' => $this->nip,
-            'nik' => $this->nik,
+            'nip' => $this->nip ?: null,
+            'nik' => $this->nik ?: null,
             'signature_data' => $this->signature_data,
             'declaration' => $this->declaration,
             'registered_at' => now(),
@@ -309,7 +309,7 @@ new class extends Component {
                                 <label class="block text-sm font-bold text-gray-700">Jenis Peserta *</label>
                                 <div class="flex items-center space-x-6">
                                     <label class="flex items-center text-sm text-gray-600 cursor-pointer">
-                                        <input type="radio" wire:model.live="jenis_peserta" value="pegawai_dinas" class="w-4 h-4 text-brand-navy focus:ring-brand-navy mr-2"> Pegawai Dinas
+                                        <input type="radio" wire:model.live="jenis_peserta" value="pegawai_dinas" class="w-4 h-4 text-brand-navy focus:ring-brand-navy mr-2"> ASN
                                     </label>
                                     <label class="flex items-center text-sm text-gray-600 cursor-pointer">
                                         <input type="radio" wire:model.live="jenis_peserta" value="eksternal" class="w-4 h-4 text-brand-navy focus:ring-brand-navy mr-2"> Eksternal

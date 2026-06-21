@@ -26,7 +26,7 @@ class PdfController extends Controller
         $pdf = Pdf::loadView('pdf.participant-list', compact('meeting', 'participants'))
             ->setPaper('a4', 'landscape');
 
-        return $pdf->download("daftar-hadir-{$meeting->title}.pdf");
+        return $pdf->stream("daftar-hadir-{$meeting->title}.pdf");
     }
 
     public function reportPdf(Request $request)
