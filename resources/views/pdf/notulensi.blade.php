@@ -64,6 +64,7 @@
             min-height: 150px;
             text-align: justify;
             line-height: 1.5;
+            text-justify: inter-word;
         }
 
         .foto {
@@ -146,20 +147,12 @@
         <tr>
             <td>Isi Notulensi </td>
             <td>:</td>
-            <td> {{ $notulensi->isi_notulensi }} </td>
+            <td> </td>
         </tr>
     </table>
-
-    <div style="text-align: center; font-weight: bold;"> Foto Dokumentasi </div><br>
-    <br>
-    @if ($notulensi->photos->count() > 0)
-
-        <div class="foto">
-            @foreach ($notulensi->photos as $photo)
-                <img src="{{ public_path('storage/' . $photo->photo_path) }}" alt="Foto">
-            @endforeach
-        </div>
-    @endif
+    <div class="isi">
+        {{ $notulensi->isi_notulensi }}
+    </div>
 
     <table class="ttd">
         <tr>
@@ -200,6 +193,16 @@
         </tr>
     </table>
 
+    <div style="text-align: center; font-weight: bold; page-break-before: always;"> Foto Dokumentasi </div><br>
+    <br>
+    @if ($notulensi->photos->count() > 0)
+
+        <div class="foto">
+            @foreach ($notulensi->photos as $photo)
+                <img src="{{ public_path('storage/' . $photo->photo_path) }}" alt="Foto">
+            @endforeach
+        </div>
+    @endif
 </body>
 
 </html>

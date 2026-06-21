@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Daftar Hadir - {{ $meeting->title }}</title>
     <style>
-        body { font-family: 'DejaVu Sans', sans-serif; font-size: 12px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-        th { background-color: #f3f4f6; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .info { margin-bottom: 20px; }
-        .info p { margin: 4px 0; }
+        body {
+            font-family: 'DejaVu Sans', sans-serif;
+            font-size: 12px;
+        }
 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f3f4f6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        .info p {
+            margin: 4px 0;
+        }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h2>DAFTAR HADIR RAPAT</h2>
@@ -21,7 +49,8 @@
 
     <div class="info">
         <p><strong>Kegiatan:</strong> {{ $meeting->title }}</p>
-        <p><strong>Hari/Tanggal:</strong> {{ $meeting->meetingDays->pluck('date')->map(fn($d) => $d->format('d M Y'))->implode(', ') }}</p>
+        <p><strong>Hari/Tanggal:</strong>
+            {{ $meeting->meetingDays->pluck('date')->map(fn($d) => $d->format('d M Y'))->implode(', ') }}</p>
         <p><strong>Jam:</strong> {{ $meeting->start_time }} - {{ $meeting->end_time }}</p>
         <p><strong>Lokasi:</strong> {{ $meeting->location }}</p>
     </div>
@@ -39,7 +68,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($participants as $index => $participant)
+            @foreach ($participants as $index => $participant)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $participant->name }}</td>
@@ -48,8 +77,9 @@
                     <td>{{ $participant->nip ?? $participant->nik }}</td>
                     <td>{{ $participant->registered_at ? $participant->registered_at->format('d/m/Y') : '-' }}</td>
                     <td>
-                        @if(strlen($participant->signature_data ?? '') > 500)
-                            <img src="{{ $participant->signature_data }}" alt="TTD" style="height: 30px; width: auto;">
+                        @if (strlen($participant->signature_data ?? '') > 500)
+                            <img src="{{ $participant->signature_data }}" alt="TTD"
+                                style="height: 30px; width: auto;">
                         @endif
                     </td>
                 </tr>
@@ -57,7 +87,7 @@
         </tbody>
     </table>
 
-    <table style="margin-top: 50px; width: 100%; border: none;">
+    {{-- <table style="margin-top: 50px; width: 100%; border: none;">
         <tr>
             <td style="width: 50%; vertical-align: top; border: none;">
                 <p>Mengetahui,</p>
@@ -82,6 +112,7 @@
                 <p>Ketua Rapat</p>
             </td>
         </tr>
-    </table>
+    </table> --}}
 </body>
+
 </html>
