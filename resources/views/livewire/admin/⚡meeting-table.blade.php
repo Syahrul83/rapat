@@ -33,7 +33,7 @@ new class extends Component {
         session()->flash('success', 'Publikasi rapat dibatalkan');
     }
 
-    public function confirmDelete($id)
+    public function confirmDeleteMeeting($id)
     {
         $this->confirmDelete = $id;
     }
@@ -105,7 +105,7 @@ new class extends Component {
                                 @else
                                     <button wire:click="unpublish({{ $meeting->id }})" class="text-label-sm text-orange-600 hover:underline">Unpublish</button>
                                 @endif
-                                <button wire:click="confirmDelete({{ $meeting->id }})" class="text-label-sm text-error hover:underline">Hapus</button>
+                                <button wire:click="confirmDeleteMeeting({{ $meeting->id }})" class="text-label-sm text-error hover:underline">Hapus</button>
                             </div>
                         </td>
                     </tr>
