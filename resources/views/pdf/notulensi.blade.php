@@ -96,6 +96,11 @@
             font-size: 11px;
             margin: 0;
         }
+
+        .alamat2 {
+            font-size: 10px;
+            margin: 0;
+        }
     </style>
 </head>
 
@@ -107,16 +112,27 @@
                 <td class="logo">
                     <img src="{{ public_path('image/lambang.png') }}">
                 </td>
-
-                <td class="instansi">
-                    <h3>BADAN KARANTINA INDONESIA</h3>
-                    <h4>BALAI BESAR KARANTINA HEWAN IKAN DAN TUMBUHAN</h4>
-                    <h4>KALIMANTAN TIMUR</h4>
-
-                    <p class="alamat">Jl. Pelita No. 3 Sepinggan Balikpapan 76115</p>
-                    <p class="alamat">TELEPON : (0542) 8523292 FAKSIMILI : (0542) 413650</p>
-                    <p class="alamat">email : karantinakaltim@karantinaindonesia.go.id</p>
-                </td>
+                @if (env('KOP_SURAT') === '1')
+                    <td class="instansi">
+                        <h3>BADAN KARANTINA INDONESIA</h3>
+                        <h4> SEKRETARIAT UTAMA </h4>
+                        <p class="alamat2">GEDUNG SOEDJONO DJOENED POESPONEGORO / GEDUNG BPPT I, JL. M.H.THAMRIN NO.8
+                            LANTAI 11,</p>
+                        <p class="alamat2"> KEBON SIRIH, KEC. MENTENG, KOTA JAKARTA PUSAT, DAERAH KHUSUS IBUKOTA JAKARTA
+                            10340 </p>
+                        <p class="alamat2">www.karantinaindonesia.go.id</p>
+                        <p class="alamat2">settama@karantinaindonesia.go.id</p>
+                    </td>
+                @else
+                    <td class="instansi">
+                        <h3>BADAN KARANTINA INDONESIA</h3>
+                        <h4>BALAI BESAR KARANTINA HEWAN IKAN DAN TUMBUHAN</h4>
+                        <h4>KALIMANTAN TIMUR</h4>
+                        <p class="alamat">Jl. Pelita No. 3 Sepinggan Balikpapan 76115</p>
+                        <p class="alamat">TELEPON : (0542) 8523292 FAKSIMILI : (0542) 413650</p>
+                        <p class="alamat">email : karantinakaltim@karantinaindonesia.go.id</p>
+                    </td>
+                @endif
             </tr>
         </table>
     </div>
