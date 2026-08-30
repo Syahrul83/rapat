@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PdfController;
+use App\Http\Controllers\Admin\UploadedFileController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -34,6 +35,13 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Report routes
     Route::livewire('/reports', '⚡admin.⚡report-page')->name('reports');
     Route::get('/reports/pdf', [PdfController::class, 'reportPdf'])->name('reports.pdf');
+
+    // Uploaded File routes
+    Route::livewire('/uploaded-files', '⚡admin.⚡uploaded-file-table')->name('uploaded-files');
+    Route::livewire('/uploaded-files/create', '⚡admin.⚡create-uploaded-file')->name('uploaded-files.create');
+    Route::livewire('/uploaded-files/{id}/edit', '⚡admin.⚡edit-uploaded-file')->name('uploaded-files.edit');
+    Route::get('/uploaded-files/{uploadedFile}/view', [UploadedFileController::class, 'view'])->name('uploaded-files.view');
+    Route::get('/uploaded-files/{uploadedFile}/download', [UploadedFileController::class, 'download'])->name('uploaded-files.download');
 
     // Notulen routes
     Route::livewire('/notulens', '⚡admin.⚡notulen-table')->name('notulens');
