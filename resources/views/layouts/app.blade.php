@@ -51,11 +51,11 @@
                             <span class="material-symbols-outlined">event_note</span>
                             <span class="text-label-md">Rapat</span>
                         </a>
-                        <a href="{{ route('admin.reports') }}"
+                        {{-- <a href="{{ route('admin.reports') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all {{ request()->routeIs('admin.reports') ? 'text-primary border-b-2 border-primary font-bold bg-surface-container-low' : 'text-on-surface-variant hover:bg-surface-container-low' }}">
                             <span class="material-symbols-outlined">analytics</span>
                             <span class="text-label-md">Laporan</span>
-                        </a>
+                        </a> --}}
                         <a href="{{ route('admin.uploaded-files') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all {{ request()->routeIs('admin.uploaded-files*') ? 'text-primary border-b-2 border-primary font-bold bg-surface-container-low' : 'text-on-surface-variant hover:bg-surface-container-low' }}">
                             <span class="material-symbols-outlined">upload_file</span>
